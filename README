@@ -1,0 +1,81 @@
+# Caching Proxy Server
+
+## Overview
+
+The Caching Proxy Server is a simple command-line tool that acts as an intermediary between clients and an origin server. It caches responses from the origin server, improving performance and reducing the load on the origin server. If a request is made for a resource that has already been cached, the proxy server returns the cached response instead of forwarding the request to the origin server.
+
+## Features
+
+- Caches responses from the origin server.
+- Returns cached responses for repeated requests.
+- Includes headers to indicate whether the response is served from the cache or the origin server.
+- Command-line interface to start the server and manage cache.
+- Ability to clear the cache via command-line command.
+
+## Requirements
+
+- Go (version 1.16 or higher)
+- Access to a terminal/command prompt
+
+## Installation
+
+1. **Clone the repository** (replace `<repository-url>` with your actual repository URL):
+
+   ```bash
+   git clone <repository-url>
+   cd caching-proxy
+
+2. **Build the project**:
+
+   ```bash
+   go build -o caching-proxy
+
+## Usage
+
+### Starting the Caching Proxy Server
+
+To start the caching proxy server, run the following command:
+
+     ./caching-proxy --port <number> --origin <url>
+
+- --port: The port on which the caching proxy server will run (default is 3000).
+- --origin: The URL of the server to which requests will be forwarded.
+
+### Clearing the Cache
+
+To clear the cached responses, run the following command:
+
+     ./caching-proxy --clear-cache
+
+- This command will clear all cached data, allowing fresh responses to be fetched from the origin server.
+
+### Response Headers
+The caching proxy server adds the following headers to the responses:
+
+- X-Cache: HIT - Indicates that the response was served from the cache.
+- X-Cache: MISS - Indicates that the response was fetched from the origin server.
+
+## Example Usage
+
+1. **Start the caching proxy server**:
+     
+     ```bash
+     ./caching-proxy --port 3000 --origin http://dummyjson.com
+
+2. **Make a request to the caching proxy**:
+
+    ```bash
+     curl http://localhost:3000/products
+
+- The first request will be forwarded to the origin server, and you will receive a response with the X-Cache: MISS header.
+
+3. **Make the same request again**:
+
+     ```bash
+     curl http://localhost:3000/products
+
+- This time, the response will come from the cache, with the header X-Cache: HIT.
+
+## Contributing
+
+Feel free to submit issues or pull requests for any enhancements or bug fixes.
